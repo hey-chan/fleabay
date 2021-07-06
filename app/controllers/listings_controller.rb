@@ -2,6 +2,7 @@ class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_categories, only: [:new, :edit]
+
   # GET /listings or /listings.json
   def index
     @listings = Listing.all
@@ -68,7 +69,7 @@ class ListingsController < ApplicationController
       params.require(:listing).permit(:user_id, :category_id, :title, :condition, :price, :description, :sold)
     end
 
-    def set_categories
+    def set_categories 
       @categories = Category.all
-    end
+    end 
 end

@@ -23,5 +23,5 @@ if Category.count == 0
   categories.each do |category|
     Category.create(name:category[:name], description: category[:description])
     puts "Created #{category[:name]} name"
-
+  end
 end
