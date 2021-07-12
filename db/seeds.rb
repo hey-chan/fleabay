@@ -15,6 +15,9 @@ categories = [
   {name: "Shoes", description: "Sneakers, dress shoes, slippers"}
 ]
 
+features = ["Waterproof", "Vegan", "Fireproof", "Sustainable", "Fair trade labour", "Genuine"]
+# We can use a checkbox for this, where features can be one, none or multiple features
+
 if User.count == 0
   User.create(username: "Tester", email: "test@test.com", password: "Password", password_confirmation: "Password")
 end
@@ -23,5 +26,12 @@ if Category.count == 0
   categories.each do |category|
     Category.create(name:category[:name], description: category[:description])
     puts "Created #{category[:name]} name"
+  end
+end
+
+if Feature.count == 0
+  features.each do |feature|
+    Feature.create(name:feature)
+    puts "Created #{feature} feature"
   end
 end
