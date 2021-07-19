@@ -30,18 +30,17 @@
 </div>
 
 <%# Not recommended way to setup JS %>
-<script src="https://js.stripe.com/v3"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <%# We need this to handle public key for Stripe %>
 <%# Smallest amount of JS we can get into %>
 <script>
   document.querySelector("[data-stripe='payment']")
-    .addEventListener("click", () => {
-      const stripe = Stripe(
-        "<%=Rails.application.credentials.dig(:stripe, :public_key)%>"
-      );
-      stripe.redirectToCheckout({
-        sessionId: "<%= @session_id %>"
+      .addEventListener("click", () => {
+        const stripe = Stripe(
+          "<%=Rails.application.credentials.dig(:stripe, :public_key)%>"
+        );
+        stripe.redirectToCheckout({
+          sessionId: "<%=@session_id%>"
+        });
       });
-    });
-
 </script>
