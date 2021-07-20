@@ -1,6 +1,8 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: %i[ show edit update destroy ]
+  before_action :set_listing, only: %i[ show ]
   before_action :authenticate_user!, except: [:index, :show]
+  # before_action :authorise_user, only: [:edit, :update, :destroy]
+  before_action :set_user_listings, only: [:edit, :update, :destroy]
   before_action :set_form_vars, only: [:new, :edit]
 
   # GET /listings or /listings.json
@@ -16,7 +18,7 @@ class ListingsController < ApplicationController
       line_items: [{
         name: @listing.title, 
         description: @listing.description, 
-        amount: @listing.price * 100,
+        amount: @listing.price,
         currency: 'aud', 
         quantity: 1
       }], 
@@ -86,6 +88,21 @@ class ListingsController < ApplicationController
     def set_listing
       @listing = Listing.find(params[:id])
     end
+
+    def set_user_listings
+      @listing = current_user.listings.find_by_id(params[:id])
+      if @listing == nil
+        flash[:error] = "You are not allowed to do that"
+        redirect_to listing_path
+      end
+    end
+
+    def authorise_user
+      if current_user.id != @listing.user_id 
+        flash[:error] = "You are not allowed to do that"
+        redirect_to listing_path
+      end
+    end 
 
     # Only allow a list of trusted parameters through.
     def listing_params
