@@ -12,7 +12,7 @@
         <%end%>
             <p class='blockquote mt-2'><%=@listing.description%></p>
         <%if current_user && @listing.sold == false%>
-          <button data-stripe="payment" class="btn btn-primary p-3">Buy: $<%=@listing.price / 100.0%></button>
+          <%= button_to "Buy: $#{@listing.price / 100.0}", create_payment_intent_path, method: :post, remote: true, params:{id: @listing.id}, class: "btn btn-primary p-3"%>
         <%elsif @listing.sold == true%>
           <button class='btn btn-secondary' disabled>SOLD</button>
         <%else%>
@@ -28,16 +28,6 @@
   </div>
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-  document.querySelector("[data-stripe='payment']")
-      .addEventListener("click", () => {
-        const stripe = Stripe(
-          "<%=Rails.application.credentials.dig(:stripe, :public_key)%>"
-        );
-        stripe.redirectToCheckout({
-          sessionId: "<%=@session_id%>"
-        });
-      });
-</script>
+<%# <script src="https://js.stripe.com/v3/"></script> %>
+
 
