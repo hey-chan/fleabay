@@ -4,4 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :listings
+
+  # before_save :enforce_lower_case_username
+
+  # private
+  # def enforce_lower_case_username
+  #   self.username = self.username.downcase
+  # end
 end
