@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :listings
+  
+  has_many :sold_orders, class_name: "Order", foreign_key: "seller_id"
+  has_many :bought_orders, class_name: "Order", foreign_key: "buyer_id"
 
   # before_save :enforce_lower_case_username
 
